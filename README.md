@@ -37,5 +37,13 @@
 - **Twitter**: [@yourtwitter](https://twitter.com/yourtwitter)
 - **Instagram**: [@yourinstagram](https://www.instagram.com/yourinstagram)
 
+<h3 align="left">🌐Connect with me:</h3>
+<p align="left">
+<a href="https://twitter.com/https://x.com/AlphaLorien" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="https://x.com/AlphaLorien" height="30" width="40" /></a>
+<a href="https://www.facebook.com/boyliuxiaopeng" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/888aff31e1d26dd2a6acf6afebbc34970aeb0118/src/images/icons/Social/facebook.svg" alt="https://www.facebook.com/boyliuxiaopeng" height="30" width="40" /></a>
+<a href="https://instagram.com/https://www.instagram.com/isxiaopengya/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="https://www.instagram.com/isxiaopengya/" height="30" width="40" /></a>
+</p>
+
+
 ---
 如果你对我的项目感兴趣，欢迎与我联系！ 😊
