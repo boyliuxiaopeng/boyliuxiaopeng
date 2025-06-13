@@ -41,6 +41,18 @@
 - **问题 1**: 解决 TOML 解析错误 [讨论链接](https://github.com/your-username)
 - **问题 2**: 解决 Python 错误问题 [讨论链接](https://github.com/your-username)
 
+<details open>
+
+<summary><h3 align="left">📡Connect with me:</h3></summary>
+
+<p align="left">
+<a href="https://x.com/AlphaLorien" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="https://x.com/AlphaLorien" height="30" width="40" /></a>
+<a href="https://www.facebook.com/boyliuxiaopeng" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/888aff31e1d26dd2a6acf6afebbc34970aeb0118/src/images/icons/Social/facebook.svg" alt="https://www.facebook.com/boyliuxiaopeng" height="30" width="40" /></a>
+<a href="https://www.instagram.com/isxiaopengya/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="https://www.instagram.com/isxiaopengya/" height="30" width="40" /></a>
+<a href="mailto:boyliuxiaopeng@gmail.com" target="blank"><img align="center" src="https://raw.githubusercontent.com/BEPb/BEPb/master/assets/gmail.svg" alt="Gmail" height="40" width="40" /></a>
+</p>
+
+</details>
 <h3 align="left">📡Connect with me:</h3>
 <p align="left">
 <a href="https://x.com/AlphaLorien" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="https://x.com/AlphaLorien" height="30" width="40" /></a>
