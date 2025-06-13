@@ -1,16 +1,20 @@
-# boyliuxiaopeng.github.io
-boyliuxiaopeng's Personal Page
 # 你好，我是[你的名字]！
 
-欢迎来到我的 GitHub 主页！我是一名软件开发者，专注于人工智能、Web 开发和开源贡献。
+![status](https://img.shields.io/badge/status-updating-brightgreen)
+![Python](https://img.shields.io/badge/python-3.12-fuchsia)
+![contributors](https://img.shields.io/badge/contributors-2-blue)
+![stars](https://img.shields.io/github/stars/你的用户名/你的仓库?style=social)
+![forks](https://img.shields.io/github/forks/你的用户名/你的仓库?style=social)
+
+欢迎来到我的 GitHub 主页！我是一名教师，专注于物理教学，对人工智能、Web 开发和开源软件有浓厚的兴趣。
 
 ## 🔧 技术栈与专注领域
 
-- **编程语言**: JavaScript, TypeScript, Python
-- **框架与库**: React, Node.js, TensorFlow, Flask
+- **编程语言**:  Python
+- **框架与库**: Node.js
 - **数据库**: PostgreSQL, MongoDB
-- **工具**: Docker, Git, VS Code
-- **领域**: 人工智能, Web3, 软件开发
+- **工具**: Git, VS Code
+- **领域**: 人工智能, Web3,
 
 ## 📚 开源项目
 
