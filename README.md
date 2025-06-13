@@ -1,14 +1,22 @@
-# 你好，我是boyliuxiaopeng！
-
 ![Description](https://github.com/boyliuxiaopeng/boyliuxiaopeng/blob/main/E57A9191.JPG?raw=true)
 
-![status](https://img.shields.io/badge/status-updating-brightgreen)
-![Python](https://img.shields.io/badge/python-3.12-fuchsia)
-![contributors](https://img.shields.io/badge/contributors-2-blue)
-![stars](https://img.shields.io/github/stars/你的用户名/你的仓库?style=social)
-![forks](https://img.shields.io/github/forks/你的用户名/你的仓库?style=social)
+<!--   my-icons -->
+<p align="center">
+    <a href="https://github.com/BEPb/BEPb"><img src="https://img.shields.io/badge/status-updating-brightgreen.svg"></a>
+    <a href="https://github.com/python/cpython"><img src="https://img.shields.io/badge/Python-3.12-FF1493.svg"></a>
+    <a href="https://github.com/BEPb/BEPb/graphs/contributors"><img src="https://img.shields.io/github/contributors/BEPb/BEPb?color=blue"></a>
+    <a href="https://github.com/BEPb/BEPb/stargazers"><img src="https://img.shields.io/github/stars/BEPb/BEPb.svg?logo=github"></a>
+    <a href="https://github.com/BEPb/BEPb/network/members"><img src="https://img.shields.io/github/forks/BEPb/BEPb.svg?color=blue&logo=github"></a>
+    <img src="https://visitor-badge.laobi.icu/badge?page_id=BEPb.BEPb" alt="visitors"/>   
+</p>
 
-欢迎来到我的 GitHub 主页！我是一名教师，专注于物理教学，对人工智能、Web 开发和开源软件有浓厚的兴趣。
+<!--   my-ticker -->    
+[![Typing SVG](https://readme-typing-svg.herokuapp.com?color=%2336BCF7&center=true&vCenter=true&width=600&lines=Hi+guys+👋,+I+am+boyliuxiaopeng;I+am+a+physics+teacher,Welcome+to+My+Profile;Over+3+years+of+and+teaching+experience;Always+learning+new+things;🎙AIGC+enthusiast)](https://git.io/typing-svg)
+![](assets/Bottom_up.svg)
+
+<!--   my-header-img -->
+![](./src/header_.png)
+<a href="https://www.python.org/"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" align="right" height="48" width="48" ></a>
 
 ## 🔧 技术栈与专注领域
 
@@ -37,14 +45,19 @@
 - **Twitter**: [@yourtwitter](https://twitter.com/yourtwitter)
 - **Instagram**: [@yourinstagram](https://www.instagram.com/yourinstagram)
 
-<h3 align="left">🌐Connect with me:</h3>
+<h3 align="left">📡Connect with me:</h3>
 <p align="left">
 <a href="https://x.com/AlphaLorien" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="https://x.com/AlphaLorien" height="30" width="40" /></a>
 <a href="https://www.facebook.com/boyliuxiaopeng" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/888aff31e1d26dd2a6acf6afebbc34970aeb0118/src/images/icons/Social/facebook.svg" alt="https://www.facebook.com/boyliuxiaopeng" height="30" width="40" /></a>
 <a href="https://www.instagram.com/isxiaopengya/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="https://www.instagram.com/isxiaopengya/" height="30" width="40" /></a>
+<a href="mailto:boyliuxiaopeng@gmail.com" target="blank"><img align="center" src="https://raw.githubusercontent.com/BEPb/BEPb/master/assets/gmail.svg" alt="Gmail" height="40" width="40" /></a>
 </p>
 
-[MIT](LICENSE)
+### 🙏 Credits
+
+This profile README is based on a template by [Andrej Marinchenko](https://github.com/BEPb) & [vikram-singh9](https://github.com/vikram-singh9)
+
+Used under the [MIT License](./LICENSE) [MIT](LICENSE)
 
 ---
 如果你对我的项目感兴趣，欢迎与我联系！ 😊
