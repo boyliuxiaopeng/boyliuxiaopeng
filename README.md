@@ -1,6 +1,6 @@
 # 你好，我是boyliuxiaopeng！
 
-![Description](图片URL)
+![Description](https://github.com/boyliuxiaopeng/boyliuxiaopeng/blob/main/E57A9191.JPG?raw=true)
 
 ![status](https://img.shields.io/badge/status-updating-brightgreen)
 ![Python](https://img.shields.io/badge/python-3.12-fuchsia)
@@ -44,6 +44,7 @@
 <a href="https://instagram.com/https://www.instagram.com/isxiaopengya/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="https://www.instagram.com/isxiaopengya/" height="30" width="40" /></a>
 </p>
 
+[MIT](LICENSE)
 
 ---
 如果你对我的项目感兴趣，欢迎与我联系！ 😊
