@@ -11,7 +11,7 @@
 </p>
 
 <!--   my-ticker -->    
-[![Typing SVG](https://readme-typing-svg.herokuapp.com?color=%2336BCF7&center=true&vCenter=true&width=600&lines=Hi+guys+👋,+I+am+boyliuxiaopeng;I+am+a+physics+teacher,Welcome+to+My+Profile;Over+3+years+of+and+teaching+experience;Always+learning+new+things;🎙AIGC+enthusiast)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.herokuapp.com?color=%2336BCF7&center=true&vCenter=true&width=600&lines=Hi+guys+👋,+I+am+boyliuxiaopeng;I+am+a+physics+teacher,Welcome+to+My+Profile;Over+3+years+of+Physics+teaching+experience;Always+learning+new+things;🎙AIGC+enthusiast)](https://git.io/typing-svg)
 ![](assets/Bottom_up.svg)
 
 <!--   my-header-img -->
@@ -38,13 +38,6 @@
 - **问题 1**: 解决 TOML 解析错误 [讨论链接](https://github.com/your-username)
 - **问题 2**: 解决 Python 错误问题 [讨论链接](https://github.com/your-username)
 
-## 🌐 在线存在
-
-- **个人网站**: [your-website.com](https://your-website.com)
-- **LinkedIn**: [linkedin.com/in/yourname](https://www.linkedin.com/in/yourname)
-- **Twitter**: [@yourtwitter](https://twitter.com/yourtwitter)
-- **Instagram**: [@yourinstagram](https://www.instagram.com/yourinstagram)
-
 <h3 align="left">📡Connect with me:</h3>
 <p align="left">
 <a href="https://x.com/AlphaLorien" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="https://x.com/AlphaLorien" height="30" width="40" /></a>
@@ -57,7 +50,4 @@
 
 This profile README is based on a template by [Andrej Marinchenko](https://github.com/BEPb) & [vikram-singh9](https://github.com/vikram-singh9)
 
-Used under the [MIT License](./LICENSE) [MIT](LICENSE)
-
----
-如果你对我的项目感兴趣，欢迎与我联系！ 😊
+Used under the [MIT License](./LICENSE) & [MIT](LICENSE)
