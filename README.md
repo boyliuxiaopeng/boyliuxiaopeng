@@ -1,4 +1,4 @@
-![Description](https://github.com/boyliuxiaopeng/boyliuxiaopeng/blob/main/assets/header.JPG?raw=true)
+![Description](https://github.com/boyliuxiaopeng/boyliuxiaopeng/blob/main/assets/header.png?raw=true?raw=true)
 
 <!--   my-icons -->
 <p align="center">
