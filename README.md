@@ -1,4 +1,4 @@
-![](assets/header.png)
+![](assets/Bottom_up.png)
 
 
 <!--   my-ticker -->    
@@ -18,7 +18,6 @@
     <a href="https://github.com/boyliuxiaopeng/boyliuxiaopeng/network/members"><img src="https://img.shields.io/github/forks/boyliuxiaopeng/boyliuxiaopeng.svg?color=blue&logo=github"></a>
     <img src="https://visitor-badge.laobi.icu/badge?page_id=boyliuxiaopeng.boyliuxiaopeng" alt="visitors"/>   
 </p>
-![](assets/Bottom_up.svg)
 
 
 <!--   my-header-img -->
