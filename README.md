@@ -1,4 +1,12 @@
-![Description](https://github.com/boyliuxiaopeng/boyliuxiaopeng/blob/main/assets/header.png?raw=true?raw=true)
+![](assets/header.png)
+
+
+<!--   my-ticker -->    
+[![Typing SVG](https://readme-typing-svg.herokuapp.com?color=%2336BCF7&center=true&vCenter=true&width=600&lines=Hi+guys+👋,+I+am+boyliuxiaopeng;I+am+a+physics+teacher,Welcome+to+My+Profile;Over+3+years+of+Physics+teaching+experience;Always+learning+new+things;🎙AIGC+enthusiast)](https://git.io/typing-svg)
+
+
+> [!IMPORTANT]
+> I enjoy making friends and also want to meet my other half.
 
 
 <!--   my-icons -->
@@ -10,14 +18,7 @@
     <a href="https://github.com/boyliuxiaopeng/boyliuxiaopeng/network/members"><img src="https://img.shields.io/github/forks/boyliuxiaopeng/boyliuxiaopeng.svg?color=blue&logo=github"></a>
     <img src="https://visitor-badge.laobi.icu/badge?page_id=boyliuxiaopeng.boyliuxiaopeng" alt="visitors"/>   
 </p>
-
-
-<!--   my-ticker -->    
-[![Typing SVG](https://readme-typing-svg.herokuapp.com?color=%2336BCF7&center=true&vCenter=true&width=600&lines=Hi+guys+👋,+I+am+boyliuxiaopeng;I+am+a+physics+teacher,Welcome+to+My+Profile;Over+3+years+of+Physics+teaching+experience;Always+learning+new+things;🎙AIGC+enthusiast)](https://git.io/typing-svg)
 ![](assets/Bottom_up.svg)
-
-> [!IMPORTANT]
-> I enjoy making friends and also want to meet my other half.
 
 
 <!--   my-header-img -->
