@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GPT / Claude 中转站连通性测试</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121a2e;
+      --panel2: #0f1729;
+      --text: #eef3ff;
+      --muted: #9aa8c7;
+      --line: rgba(255,255,255,.11);
+      --accent: #7aa2ff;
+      --ok: #35d07f;
+      --warn: #ffcc66;
+      --bad: #ff6b6b;
+      --code: #080d19;
+      --shadow: 0 18px 55px rgba(0,0,0,.35);
+      --radius: 18px;
+      color-scheme: dark;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(122,162,255,.25), transparent 32rem),
+        radial-gradient(circle at 80% 0%, rgba(53,208,127,.12), transparent 28rem),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    header {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 42px 22px 18px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 4vw, 44px);
+      letter-spacing: -.04em;
+    }
+    .sub {
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 900px;
+      margin: 0;
+    }
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 14px 22px 46px;
+    }
+    .notice {
+      border: 1px solid rgba(255,204,102,.4);
+      background: rgba(255,204,102,.09);
+      color: #ffe5a6;
+      padding: 14px 16px;
+      border-radius: 14px;
+      line-height: 1.65;
+      margin-bottom: 18px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.025)), var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .card-head {
+      padding: 18px 18px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+    .card h2 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: -.02em;
+    }
+    .badge {
+      font-size: 12px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .badge.ok { color: #a8ffd0; border-color: rgba(53,208,127,.5); background: rgba(53,208,127,.1); }
+    .badge.warn { color: #ffe2a0; border-color: rgba(255,204,102,.5); background: rgba(255,204,102,.1); }
+    .badge.bad { color: #ffc1c1; border-color: rgba(255,107,107,.5); background: rgba(255,107,107,.1); }
+    .body { padding: 18px; }
+    label {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin: 12px 0 7px;
+    }
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: rgba(5,10,20,.75);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 11px 12px;
+      outline: none;
+      font: inherit;
+    }
+    input:focus, select:focus, textarea:focus { border-color: rgba(122,162,255,.8); box-shadow: 0 0 0 3px rgba(122,162,255,.14); }
+    textarea { min-height: 72px; resize: vertical; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    @media (max-width: 560px) { .row, .row3 { grid-template-columns: 1fr; } }
+    .buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    button {
+      border: 0;
+      background: var(--accent);
+      color: #051027;
+      font-weight: 700;
+      border-radius: 12px;
+      padding: 11px 14px;
+      cursor: pointer;
+      transition: transform .06s ease, opacity .2s ease;
+    }
+    button:hover { opacity: .92; }
+    button:active { transform: translateY(1px); }
+    button.secondary { background: rgba(255,255,255,.09); color: var(--text); border: 1px solid var(--line); }
+    button.danger { background: rgba(255,107,107,.16); color: #ffd1d1; border: 1px solid rgba(255,107,107,.38); }
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 18px 0;
+      align-items: center;
+    }
+    .summary {
+      background: rgba(255,255,255,.045);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-top: 16px;
+    }
+    .log {
+      margin-top: 14px;
+      background: var(--code);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      min-height: 170px;
+      max-height: 420px;
+      overflow: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .hint { color: var(--muted); font-size: 12px; margin-top: 8px; line-height: 1.55; }
+    .small { font-size: 12px; color: var(--muted); }
+    .footer-card {
+      margin-top: 18px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+    code { background: rgba(255,255,255,.08); padding: 2px 5px; border-radius: 6px; color: #dce7ff; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>GPT / Claude 中转站连通性测试</h1>
+  <p class="sub">本页面只在你的浏览器本地运行。它会对中转站发起 <code>/v1/models</code> 和最小聊天请求，用于判断：域名是否可达、鉴权是否通过、模型是否可调用、响应延迟是多少。</p>
+</header>
+<main>
+  <div class="notice">
+    注意：浏览器直连第三方 API 会受 CORS 限制。若结果显示 <b>Failed to fetch / CORS</b>，不一定代表中转站不可用；请使用页面生成的 curl 命令在终端复测。API Key 会从浏览器直接发送到你填写的 Base URL，不会发送给其它地方。
+  </div>
+
+  <div class="toolbar">
+    <button onclick="testAll()">一键测试两个配置</button>
+    <button class="secondary" onclick="saveConfig()">保存非敏感配置</button>
+    <button class="secondary" onclick="loadConfig(true)">读取已保存配置</button>
+    <button class="danger" onclick="clearAllLogs()">清空结果</button>
+    <span class="small">默认不会保存 API Key。</span>
+  </div>
+
+  <section class="grid">
+    <article class="card" id="card-gpt">
+      <div class="card-head">
+        <h2>GPT / OpenAI 兼容接口</h2>
+        <span class="badge" id="status-gpt">未测试</span>
+      </div>
+      <div class="body">
+        <label>协议类型</label>
+        <select id="protocol-gpt" onchange="applyProtocolDefaults('gpt')">
+          <option value="openai">OpenAI 兼容：/v1/chat/completions</option>
+          <option value="anthropic">Anthropic 原生：/v1/messages</option>
+        </select>
+
+        <label>Base URL</label>
+        <input id="base-gpt" placeholder="例如：https://api.example.com 或 https://api.example.com/v1" autocomplete="off" />
+        <div class="hint">可以填根地址，也可以填已带 <code>/v1</code> 的地址。</div>
+
+        <label>API Key</label>
+        <input id="key-gpt" type="password" placeholder="sk-..." autocomplete="off" />
+
+        <div class="row">
+          <div>
+            <label>模型名</label>
+            <input id="model-gpt" value="gpt-4o-mini" autocomplete="off" />
+          </div>
+          <div>
+            <label>超时秒数</label>
+            <input id="timeout-gpt" type="number" value="20" min="3" max="120" />
+          </div>
+        </div>
+
+        <div class="row3">
+          <div>
+            <label>鉴权方式</label>
+            <select id="auth-gpt">
+              <option value="bearer">Authorization: Bearer</option>
+              <option value="x-api-key">x-api-key</option>
+              <option value="both">两者都发送</option>
+              <option value="none">不发送 Key</option>
+            </select>
+          </div>
+          <div>
+            <label>Token 参数</label>
+            <select id="tokenParam-gpt">
+              <option value="max_tokens">max_tokens</option>
+              <option value="max_completion_tokens">max_completion_tokens</option>
+            </select>
+          </div>
+          <div>
+            <label>测试输出 Token</label>
+            <input id="maxTokens-gpt" type="number" value="24" min="1" max="512" />
+          </div>
+        </div>
+
+        <label>测试提示词</label>
+        <input id="prompt-gpt" value="请只回复 OK" />
+
+        <label>额外 Headers（JSON，可留空）</label>
+        <textarea id="headers-gpt" placeholder='例如：{"HTTP-Referer":"http://localhost","X-Title":"relay-test"}'></textarea>
+
+        <div class="buttons">
+          <button onclick="testModels('gpt')">测试模型列表</button>
+          <button onclick="testChat('gpt')">测试聊天生成</button>
+          <button class="secondary" onclick="copyCurl('gpt')">复制 curl</button>
+        </div>
+        <div class="summary" id="summary-gpt">等待测试。</div>
+        <div class="log" id="log-gpt"></div>
+      </div>
+    </article>
+
+    <article class="card" id="card-claude">
+      <div class="card-head">
+        <h2>Claude 中转 / Anthropic 接口</h2>
+        <span class="badge" id="status-claude">未测试</span>
+      </div>
+      <div class="body">
+        <label>协议类型</label>
+        <select id="protocol-claude" onchange="applyProtocolDefaults('claude')">
+          <option value="anthropic">Anthropic 原生：/v1/messages</option>
+          <option value="openai">OpenAI 兼容：/v1/chat/completions</option>
+        </select>
+
+        <label>Base URL</label>
+        <input id="base-claude" placeholder="例如：https://api.example.com 或 https://api.example.com/v1" autocomplete="off" />
+        <div class="hint">若你的 Claude 中转站是 OpenAI 兼容格式，请把协议类型改为 OpenAI 兼容。</div>
+
+        <label>API Key</label>
+        <input id="key-claude" type="password" placeholder="sk-ant-... 或中转站 key" autocomplete="off" />
+
+        <div class="row">
+          <div>
+            <label>模型名</label>
+            <input id="model-claude" value="claude-sonnet-5" autocomplete="off" />
+          </div>
+          <div>
+            <label>超时秒数</label>
+            <input id="timeout-claude" type="number" value="20" min="3" max="120" />
+          </div>
+        </div>
+
+        <div class="row3">
+          <div>
+            <label>鉴权方式</label>
+            <select id="auth-claude">
+              <option value="x-api-key">x-api-key</option>
+              <option value="bearer">Authorization: Bearer</option>
+              <option value="both">两者都发送</option>
+              <option value="none">不发送 Key</option>
+            </select>
+          </div>
+          <div>
+            <label>Token 参数</label>
+            <select id="tokenParam-claude">
+              <option value="max_tokens">max_tokens</option>
+              <option value="max_completion_tokens">max_completion_tokens</option>
+            </select>
+          </div>
+          <div>
+            <label>测试输出 Token</label>
+            <input id="maxTokens-claude" type="number" value="24" min="1" max="512" />
+          </div>
+        </div>
+
+        <label>测试提示词</label>
+        <input id="prompt-claude" value="请只回复 OK" />
+
+        <label>额外 Headers（JSON，可留空）</label>
+        <textarea id="headers-claude" placeholder='例如：{"anthropic-beta":"..."}'></textarea>
+
+        <div class="buttons">
+          <button onclick="testModels('claude')">测试模型列表</button>
+          <button onclick="testChat('claude')">测试聊天生成</button>
+          <button class="secondary" onclick="copyCurl('claude')">复制 curl</button>
+        </div>
+        <div class="summary" id="summary-claude">等待测试。</div>
+        <div class="log" id="log-claude"></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="footer-card">
+    <b>结果解读：</b><br>
+    1. <code>HTTP 200</code> 且返回内容中有模型回复，说明中转站、Key、模型名基本可用。<br>
+    2. <code>401/403</code> 多数是 Key、鉴权头或额度权限问题。<br>
+    3. <code>404</code> 多数是 Base URL 或协议类型不匹配，例如把 Claude 原生站点按 OpenAI 兼容协议测了。<br>
+    4. <code>429</code> 是限流或余额/并发限制。<br>
+    5. <code>Failed to fetch</code> 常见于 CORS、DNS、TLS、代理拦截或网络不可达，建议复制 curl 到终端复测。
+  </section>
+</main>
+
+<script>
+  const IDS = ['gpt', 'claude'];
+
+  function $(id) { return document.getElementById(id); }
+
+  function now() {
+    const d = new Date();
+    return d.toLocaleTimeString('zh-CN', { hour12: false });
+  }
+
+  function log(id, msg, obj) {
+    const el = $('log-' + id);
+    const text = typeof obj === 'undefined' ? msg : msg + '\n' + safeStringify(obj);
+    el.textContent += `[${now()}] ${text}\n\n`;
+    el.scrollTop = el.scrollHeight;
+  }
+
+  function clearLog(id) {
+    $('log-' + id).textContent = '';
+    $('summary-' + id).textContent = '等待测试。';
+    setStatus(id, '未测试', '');
+  }
+
+  function clearAllLogs() { IDS.forEach(clearLog); }
+
+  function setStatus(id, text, level) {
+    const el = $('status-' + id);
+    el.textContent = text;
+    el.className = 'badge' + (level ? ' ' + level : '');
+  }
+
+  function safeStringify(obj) {
+    try { return JSON.stringify(obj, null, 2); }
+    catch { return String(obj); }
+  }
+
+  function normalizeBase(base) {
+    return String(base || '').trim().replace(/\/+$/, '');
+  }
+
+  function apiUrl(id, pathWithoutV1) {
+    const base = normalizeBase($('base-' + id).value);
+    if (!base) throw new Error('请填写 Base URL');
+    const path = pathWithoutV1.startsWith('/') ? pathWithoutV1 : '/' + pathWithoutV1;
+    return base.endsWith('/v1') ? base + path : base + '/v1' + path;
+  }
+
+  function readExtraHeaders(id) {
+    const raw = $('headers-' + id).value.trim();
+    if (!raw) return {};
+    try {
+      const parsed = JSON.parse(raw);
+      if (!parsed || Array.isArray(parsed) || typeof parsed !== 'object') throw new Error('Headers 必须是 JSON 对象');
+      return parsed;
+    } catch (e) {
+      throw new Error('额外 Headers JSON 格式错误：' + e.message);
+    }
+  }
+
+  function makeHeaders(id, isJson = true) {
+    const protocol = $('protocol-' + id).value;
+    const auth = $('auth-' + id).value;
+    const key = $('key-' + id).value.trim();
+    const headers = {};
+    if (isJson) headers['Content-Type'] = 'application/json';
+    if (auth === 'bearer' || auth === 'both') {
+      if (key) headers['Authorization'] = 'Bearer ' + key;
+    }
+    if (auth === 'x-api-key' || auth === 'both') {
+      if (key) headers['x-api-key'] = key;
+    }
+    if (protocol === 'anthropic') {
+      headers['anthropic-version'] = headers['anthropic-version'] || '2023-06-01';
+    }
+    return Object.assign(headers, readExtraHeaders(id));
+  }
+
+  function makeChatBody(id) {
+    const protocol = $('protocol-' + id).value;
+    const model = $('model-' + id).value.trim();
+    const prompt = $('prompt-' + id).value || '请只回复 OK';
+    const maxTokens = Number($('maxTokens-' + id).value || 24);
+    const tokenParam = $('tokenParam-' + id).value;
+    if (!model) throw new Error('请填写模型名');
+
+    if (protocol === 'openai') {
+      const body = {
+        model,
+        messages: [{ role: 'user', content: prompt }],
+        stream: false
+      };
+      body[tokenParam] = maxTokens;
+      return body;
+    }
+
+    return {
+      model,
+      max_tokens: maxTokens,
+      messages: [{ role: 'user', content: prompt }]
+    };
+  }
+
+  function chatPath(id) {
+    return $('protocol-' + id).value === 'openai' ? '/chat/completions' : '/messages';
+  }
+
+  function summarizeChat(protocol, data) {
+    if (!data) return '(空响应)';
+    if (protocol === 'openai') {
+      return data?.choices?.[0]?.message?.content || data?.choices?.[0]?.text || safeStringify(data).slice(0, 600);
+    }
+    if (Array.isArray(data.content)) {
+      return data.content.map(part => part.text || '').filter(Boolean).join('\n') || safeStringify(data).slice(0, 600);
+    }
+    return data.completion || data.text || safeStringify(data).slice(0, 600);
+  }
+
+  async function fetchWithTimeout(url, options, timeoutSec) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutSec * 1000);
+    const started = performance.now();
+    try {
+      const res = await fetch(url, { ...options, signal: controller.signal });
+      const ms = Math.round(performance.now() - started);
+      const text = await res.text();
+      let data = text;
+      try { data = text ? JSON.parse(text) : null; } catch {}
+      return { ok: res.ok, status: res.status, statusText: res.statusText, ms, data, headers: Object.fromEntries(res.headers.entries()) };
+    } catch (e) {
+      const ms = Math.round(performance.now() - started);
+      const corsHint = e.name === 'TypeError' ? '浏览器无法拿到响应，常见原因是 CORS、DNS、TLS、代理拦截或网络不可达。请用 curl 复测。' : '';
+      throw new Error(`${e.name}: ${e.message}${corsHint ? '\n' + corsHint : ''}\n耗时：${ms}ms`);
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  async function testModels(id) {
+    setStatus(id, '测试中', 'warn');
+    const timeoutSec = Number($('timeout-' + id).value || 20);
+    let url;
+    try {
+      url = apiUrl(id, '/models');
+      log(id, 'GET ' + url);
+      const result = await fetchWithTimeout(url, { method: 'GET', headers: makeHeaders(id, false) }, timeoutSec);
+      log(id, `模型列表响应：HTTP ${result.status} ${result.statusText}，耗时 ${result.ms}ms`, result.data);
+      if (result.ok) {
+        setStatus(id, '模型列表 OK', 'ok');
+        const models = extractModels(result.data);
+        $('summary-' + id).textContent = models.length ? `模型列表可访问，前几个模型：${models.slice(0, 8).join('、')}` : '模型列表可访问，但未识别到模型数组。';
+      } else {
+        setStatus(id, '模型列表失败', 'bad');
+        $('summary-' + id).textContent = `模型列表失败：HTTP ${result.status}。这不一定代表聊天接口不可用，有些中转站不开放 /v1/models。`;
+      }
+    } catch (e) {
+      setStatus(id, '模型列表异常', 'bad');
+      $('summary-' + id).textContent = e.message.split('\n')[0];
+      log(id, '模型列表异常：' + e.message);
+    }
+  }
+
+  function extractModels(data) {
+    if (!data) return [];
+    const arr = Array.isArray(data.data) ? data.data : Array.isArray(data.models) ? data.models : Array.isArray(data) ? data : [];
+    return arr.map(x => typeof x === 'string' ? x : x.id || x.name || x.model).filter(Boolean);
+  }
+
+  async function testChat(id) {
+    setStatus(id, '测试中', 'warn');
+    const timeoutSec = Number($('timeout-' + id).value || 20);
+    let url;
+    try {
+      url = apiUrl(id, chatPath(id));
+      const protocol = $('protocol-' + id).value;
+      const body = makeChatBody(id);
+      log(id, 'POST ' + url, { requestBody: body, headers: redactHeaders(makeHeaders(id, true)) });
+      const result = await fetchWithTimeout(url, {
+        method: 'POST',
+        headers: makeHeaders(id, true),
+        body: JSON.stringify(body)
+      }, timeoutSec);
+      log(id, `聊天响应：HTTP ${result.status} ${result.statusText}，耗时 ${result.ms}ms`, result.data);
+      if (result.ok) {
+        const answer = summarizeChat(protocol, result.data);
+        setStatus(id, '聊天 OK', 'ok');
+        $('summary-' + id).innerHTML = `聊天接口可用。耗时 <b>${result.ms}ms</b>，模型回复：<code>${escapeHtml(answer.slice(0, 240))}</code>`;
+      } else {
+        setStatus(id, '聊天失败', 'bad');
+        $('summary-' + id).textContent = diagnoseHttp(result.status, result.data);
+      }
+    } catch (e) {
+      setStatus(id, '请求异常', 'bad');
+      $('summary-' + id).textContent = e.message.split('\n')[0];
+      log(id, '聊天异常：' + e.message);
+    }
+  }
+
+  function diagnoseHttp(status, data) {
+    const detail = typeof data === 'string' ? data.slice(0, 300) : safeStringify(data).slice(0, 300);
+    const map = {
+      400: 'HTTP 400：请求参数不被支持。检查协议类型、模型名、max_tokens/max_completion_tokens 参数。',
+      401: 'HTTP 401：鉴权失败。检查 API Key 和 Authorization/x-api-key 设置。',
+      403: 'HTTP 403：无权限、额度不足、IP/来源受限或模型未授权。',
+      404: 'HTTP 404：路径不存在。检查 Base URL 是否已带 /v1，或协议类型是否选错。',
+      429: 'HTTP 429：限流、余额不足或并发超限。',
+      500: 'HTTP 500：中转站或上游服务内部错误。',
+      502: 'HTTP 502：中转站无法访问上游服务。',
+      503: 'HTTP 503：服务暂不可用或上游过载。',
+      504: 'HTTP 504：网关超时。'
+    };
+    return (map[status] || `HTTP ${status}：请求失败。`) + ' 返回摘要：' + detail;
+  }
+
+  function redactHeaders(headers) {
+    const out = { ...headers };
+    for (const k of Object.keys(out)) {
+      if (/authorization|api-key/i.test(k)) out[k] = '***已隐藏***';
+    }
+    return out;
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"]/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[s]));
+  }
+
+  async function testAll() {
+    for (const id of IDS) {
+      await testModels(id);
+      await testChat(id);
+    }
+  }
+
+  function buildCurl(id) {
+    const url = apiUrl(id, chatPath(id));
+    const headers = makeHeaders(id, true);
+    const body = makeChatBody(id);
+    const h = Object.entries(headers).map(([k, v]) => `  -H ${shellQuote(k + ': ' + v)} \\\n`).join('');
+    return `curl -sS ${shellQuote(url)} \\\n${h}  -d ${shellQuote(JSON.stringify(body))}`;
+  }
+
+  async function copyCurl(id) {
+    try {
+      const cmd = buildCurl(id);
+      await navigator.clipboard.writeText(cmd);
+      log(id, '已复制 curl 命令：\n' + redactCurl(cmd));
+      $('summary-' + id).textContent = 'curl 命令已复制。请在终端粘贴执行，以排除浏览器 CORS 影响。';
+    } catch (e) {
+      log(id, '复制失败：' + e.message);
+      alert('复制失败：' + e.message);
+    }
+  }
+
+  function shellQuote(str) {
+    return "'" + String(str).replace(/'/g, "'\\''") + "'";
+  }
+
+  function redactCurl(cmd) {
+    return cmd
+      .replace(/Authorization: Bearer ([^']+)/g, 'Authorization: Bearer ***已隐藏***')
+      .replace(/x-api-key: ([^']+)/g, 'x-api-key: ***已隐藏***');
+  }
+
+  function applyProtocolDefaults(id) {
+    const protocol = $('protocol-' + id).value;
+    if (protocol === 'openai') {
+      $('auth-' + id).value = 'bearer';
+      $('tokenParam-' + id).disabled = false;
+    } else {
+      $('auth-' + id).value = 'x-api-key';
+      $('tokenParam-' + id).value = 'max_tokens';
+      $('tokenParam-' + id).disabled = true;
+    }
+  }
+
+  function getConfig() {
+    const cfg = {};
+    for (const id of IDS) {
+      cfg[id] = {
+        protocol: $('protocol-' + id).value,
+        base: $('base-' + id).value,
+        model: $('model-' + id).value,
+        timeout: $('timeout-' + id).value,
+        auth: $('auth-' + id).value,
+        tokenParam: $('tokenParam-' + id).value,
+        maxTokens: $('maxTokens-' + id).value,
+        prompt: $('prompt-' + id).value,
+        headers: $('headers-' + id).value
+      };
+    }
+    return cfg;
+  }
+
+  function saveConfig() {
+    localStorage.setItem('llmRelayTestConfig', JSON.stringify(getConfig()));
+    alert('已保存非敏感配置。API Key 未保存。');
+  }
+
+  function loadConfig(showAlert = false) {
+    const raw = localStorage.getItem('llmRelayTestConfig');
+    if (!raw) { if (showAlert) alert('没有找到已保存配置。'); return; }
+    try {
+      const cfg = JSON.parse(raw);
+      for (const id of IDS) {
+        if (!cfg[id]) continue;
+        for (const [k, v] of Object.entries(cfg[id])) {
+          const el = $(k === 'base' ? 'base-' + id : k === 'model' ? 'model-' + id : k === 'timeout' ? 'timeout-' + id : k === 'headers' ? 'headers-' + id : k === 'protocol' ? 'protocol-' + id : k === 'auth' ? 'auth-' + id : k === 'tokenParam' ? 'tokenParam-' + id : k === 'maxTokens' ? 'maxTokens-' + id : k === 'prompt' ? 'prompt-' + id : '');
+          if (el) el.value = v;
+        }
+      }
+      applyProtocolDefaults('gpt');
+      applyProtocolDefaults('claude');
+      // 恢复 auth/tokenParam 用户保存值，因为 applyProtocolDefaults 会覆盖。
+      for (const id of IDS) {
+        if (cfg[id]?.auth) $('auth-' + id).value = cfg[id].auth;
+        if (cfg[id]?.tokenParam) $('tokenParam-' + id).value = cfg[id].tokenParam;
+      }
+      if (showAlert) alert('配置已读取。');
+    } catch (e) {
+      alert('读取配置失败：' + e.message);
+    }
+  }
+
+  if (localStorage.getItem('llmRelayTestConfig')) {
+    loadConfig(false);
+  } else {
+    applyProtocolDefaults('gpt');
+    applyProtocolDefaults('claude');
+  }
+</script>
+</body>
+</html>
