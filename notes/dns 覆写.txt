@@ -1,0 +1,95 @@
+# 规则模式下 全部走 国外 DoH dns 模式
+
+dns:
+  enable: true
+  listen: ':53'
+  enhanced-mode: 'fake-ip'
+  fake-ip-range: '198.18.0.1/16'
+  fake-ip-filter-mode: 'blacklist'
+  prefer-h3: false
+  respect-rules: true
+  use-hosts: false
+  use-system-hosts: false
+  ipv6: false
+
+  fake-ip-filter:
+    - "*.lan"
+    - "*.local"
+    - "*.arpa"
+    - "*.localhost"
+    - "*.localdomain"
+    - "*.home.arpa"
+  # 时间同步
+    - "time.*.com"
+    - "time.*.gov"
+    - "time.*.edu.cn"
+    - "time.cloudflare.com"
+    - "time.windows.com"
+    - "ntp.*.com"
+    - "ntp.*.org"
+    - "*.ntp.org.cn"
+    - "*.pool.ntp.org"
+  # STUN / WebRTC，避免部分实时通信异常
+    - "stun.*.*"
+    - "stun.*.*.*"
+    - "*.stun.*.*"
+    - "*.stun.*.*.*"
+    - "*.stun.*"
+  # 国内常用
+    - "+.market.xiaomi.com"
+    - "localhost.ptlogin2.qq.com"
+   # Apple / Android / Windows 连接检测
+    - "captive.apple.com"
+    - "connectivitycheck.gstatic.com"
+    - "connectivitycheck.android.com"
+    - "dns.msftncsi.com"
+    - "www.msftconnecttest.com"
+    - "www.msftncsi.com"
+    - "*.msftncsi.com"
+  # 局域网设备
+    - "router.asus.com"
+    - "routerlogin.net"
+    - "miwifi.com"
+    - "tplogin.cn"
+    - "tendawifi.com"
+    - "my.router"
+    - "mygateway"
+
+  default-nameserver:
+    - 223.5.5.5
+    - 223.6.6.6
+    - 119.29.29.29
+
+  nameserver:
+    - https://1.1.1.1/dns-query#PROXY
+    - https://8.8.8.8/dns-query#PROXY
+
+  direct-nameserver-follow-policy: false
+
+  fallback-filter:
+    geoip: true
+    geoip-code: 'CN'
+    ipcidr:
+      - '240.0.0.0/4'
+      - '0.0.0.0/32'
+    domain:
+      - '+.google.com'
+      - '+.facebook.com'
+      - '+.youtube.com'
+      - '+.twitter.com'
+      - '+.x.com'
+      - '+.instagram.com'
+      - '+.github.com'
+      - '+.openai.com'
+      - '+.chatgpt.com'
+      - '+.claude.ai'
+
+  fallback:
+    - https://1.1.1.1/dns-query#PROXY
+    - https://8.8.8.8/dns-query#PROXY
+
+  proxy-server-nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+    - 223.5.5.5
+    - 119.29.29.29
