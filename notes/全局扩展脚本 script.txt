@@ -1,13 +1,21 @@
+// 优化版；用于 Clash Verge Rev 全局扩展脚本（JavaScript）。
+// DNS 设置统一由 DNS 覆写管理；本脚本仅重建 DNS 专用策略组。
+// DNS-自动只在美国、日本、台湾节点中测速选择；各地区组可手选。
+// 自动测速仅衡量测试网址连通性，不代表实际 DoH 查询延迟。
 function main(config) {
+  if (!config || typeof config !== "object" || Array.isArray(config)) {
+    throw new Error("全局扩展脚本需要一个有效的配置对象");
+  }
+  // DNS-PROXY 等为本脚本保留组名；普通节点重名时明确报错。
   if (!Array.isArray(config["proxy-groups"])) {
     config["proxy-groups"] = [];
   }
 
   // 两位地区代码必须由常见分隔符或字符串边界包围。
   function codePattern(code) {
-    return "(^|[\\s_\\-\\[\\]()|/])" +
+    return "(^|[\\s_\\-\\[\\]()|/.,:：·])" +
       code +
-      "([\\s_\\-\\[\\]()|/]|$)";
+      "([\\s_\\-\\[\\]()|/.,:：·]|$)";
   }
 
   const regions = [
@@ -30,7 +38,7 @@ function main(config) {
     {
       name: "DNS-台湾",
       pattern:
-        "🇹🇼|台湾|台灣|Taiwan|Taipei|Kaohsiung|Taichung|Tainan|" +
+        "🇹🇼|台湾|台灣|臺灣|Taiwan|Taipei|Kaohsiung|Taichung|Tainan|" +
         "台北|臺北|高雄|台中|臺中|台南|臺南|" +
         codePattern("TW")
     },
@@ -55,6 +63,13 @@ function main(config) {
     ...regions.map(region => region.name)
   ];
 
+  const nodes = Array.isArray(config.proxies) ? config.proxies : [];
+  nodes.forEach(node => {
+    if (node && managedNames.includes(node.name)) {
+      throw new Error("节点名称与 DNS 策略组冲突：" + node.name + "，请先重命名该节点");
+    }
+  });
+
   // 只删除本脚本管理的同名组，保留订阅其他组。
   config["proxy-groups"] = config["proxy-groups"].filter(
     group => group && !managedNames.includes(group.name)
@@ -64,7 +79,7 @@ function main(config) {
     name: region.name,
     type: "select",
     "include-all": true,
-    "exclude-type": "Direct|Reject",
+    "exclude-type": "Direct|Reject|RejectDrop|Compatible|Pass|Dns",
     "empty-fallback": "REJECT",
     filter: "(?i)(" + region.pattern + ")"
   }));
@@ -73,16 +88,19 @@ function main(config) {
     name: "DNS-自动",
     type: "url-test",
     "include-all": true,
-    "exclude-type": "Direct|Reject",
+    "exclude-type": "Direct|Reject|RejectDrop|Compatible|Pass|Dns",
     "empty-fallback": "REJECT",
+    // 自动选择尊重美、日、台偏好；香港、新加坡和全部节点由用户手选。
     filter:
       "(?i)(" +
       regions.slice(0, 3).map(region => region.pattern).join("|") +
       ")",
+    // 组内没有节点时使用 REJECT，不静默改走直连。
     url: "https://www.gstatic.com/generate_204",
     "expected-status": 204,
     interval: 300,
     tolerance: 50,
+    timeout: 5000,
     lazy: true
   };
 
@@ -90,7 +108,7 @@ function main(config) {
     name: "DNS-全部",
     type: "select",
     "include-all": true,
-    "exclude-type": "Direct|Reject",
+    "exclude-type": "Direct|Reject|RejectDrop|Compatible|Pass|Dns",
     "empty-fallback": "REJECT"
   };
 
